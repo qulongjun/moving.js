@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#div1 {
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+				left: 0px;
+				top: 30px;
+			}
+		</style>
+		<script type="text/javascript">
+			 /* 在JS中，如何让一个页面元素动起来*/
+			window.onload = function() {
+				var oBtn = document.getElementById('btn');
+				var oDiv = document.getElementById('div1');
+				var iTimer = null;
+				//点击按钮让Div1横向向右移动
+				//定时器
+				/*存在的问题：
+				 * 1.要求比较严格，起始位置的left必须要小于500。
+				 * 2.该运动为匀速运动，每次移动10px，则要求判断终止的条件必须为移动距离的整数倍，否则会产生bug。
+				 * 3.若将判断条件改成>=，则不能实现超出部分拉回操作。
+				 * 4.多次连续点击会导致速度变快：定时器累加，解决方法：每次点击的时候都clear一下定时器
+				 */
+				
+				/*
+				 总结：
+				 1.清除定时器，保证运动过程中只有一个定时器代码执行。
+				 2.开启定时器
+				 3.开始运动，同时在运动中加入判断，以便在满足要求的时候停止。
+				 * */
+				oBtn.onclick = function() {
+					clearInterval(iTimer);
+					iTimer = setInterval(function() {
+						if (oDiv.offsetLeft == 500) {
+							clearInterval(iTimer);
+						} else {
+							oDiv.style.left = oDiv.offsetLeft + 10 + 'px';
+						}
+					}, 30);
+				};
+			}
+		</script>
+	</head>
+
+	<body>
+		<input type="button" value="动起来" id="btn" />
+		<div id="div1"></div>
+	</body>
+
+</html>

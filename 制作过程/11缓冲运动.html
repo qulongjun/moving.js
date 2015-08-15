@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#div1 {
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+				left: 10px;
+				top: 30px;
+			}
+		</style>
+		<script type="text/javascript">
+			 //缓冲运动
+			 //越接近目标点，速度越小
+			window.onload = function() {
+				var oBtn = document.getElementById('btn');
+				var oDiv = document.getElementById('div1');
+				var iTimer = null;
+				oBtn.onclick = function() {
+					clearInterval(iTimer);
+					var iSpeed = 0;
+					iTimer = setInterval(function() {
+						iSpeed = (500 - oDiv.offsetLeft) * 0.2; //速度=(目标值-当前值)/缩放系数,BUG:速度取整
+						//if (iSpeed >= 0) {
+						//	iSpeed = Math.ceil(iSpeed); //速度向上取整，用来消除JS的offset无法识别CSS小数的bug，具体见CSS解析和JS解析.html
+						//}else{
+						//	iSpeed=Math.floor(iSpeed);//若速度是负值，即从大值到小值，则需要向下取整
+						//}
+						iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+						if (oDiv.offsetLeft == 500) {
+							clearInterval(iTimer);
+						} else {
+							oDiv.style.left = oDiv.offsetLeft + iSpeed + 'px';
+						}
+					}, 30);
+				};
+			}
+		</script>
+	</head>
+
+	<body>
+		<input type="button" value="动起来" id="btn" />
+		<div id="div1"></div>
+	</body>
+
+</html>

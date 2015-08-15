@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/cssReset.css" />
+		<style type="text/css">
+			#container {
+				width: 60%;
+				margin: 0 auto;
+				font-size: 16px;
+				text-align: center;
+				font-family: "微软雅黑";
+				margin-bottom: 100px;
+			}
+			h1 {
+				font-size: 1.5em;
+				margin: 10px;
+			}
+			h3 {
+				font-size: 1em;
+			}
+			p {
+				text-align: left;
+				text-indent: 2em;
+				margin-top: 5px;
+			}
+			#div1,
+			#div2,
+			#div3,
+			#div4 {
+				height: 200px;
+				width: 200px;
+				background: gray;
+				margin: 10px;
+			}
+			div span {
+				color: rgb(255, 255, 255);
+				position: relative;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload = function() {
+				var oDiv1 = document.getElementById('div1');
+				var oDiv2 = document.getElementById('div2');
+				var oDiv3 = document.getElementById('div3');
+				var oDiv4 = document.getElementById('div4');
+				oDiv1.onmouseover = function() {
+					startMove(this, {
+						'width': 500
+					}, 30);
+				};
+				oDiv1.onmouseout = function() {
+					startMove(this, {
+						'width': 200
+					}, 30);
+				};
+				oDiv2.onmouseover = function() {
+					startMove(this, {
+						'width': 500,
+						'height': 500
+					}, 30);
+				};
+				oDiv2.onmouseout = function() {
+					startMove(this, {
+						'width': 200,
+						'height': 200
+					}, 30);
+				};
+				oDiv3.onmouseover = function() {
+					startMove(this, {
+						'width': 500
+					}, 30, function() {
+						startMove(this, {
+							'height': 500
+						}, 30);
+					});
+				}
+				oDiv3.onmouseout = function() {
+					startMove(this, {
+						'height': 200
+					}, 30, function() {
+						startMove(this, {
+							'width': 200
+						}, 30);
+					});
+				};
+				oDiv4.onmouseover = function() {
+					startMove(this, {
+						'width': 500
+					}, 30, function() {
+						alert('动画移动完成！');
+					});
+				}
+				oDiv4.onmouseout = function() {
+					startMove(this, {
+						'width': 200
+					}, 30, function() {
+						alert('动画还原完成！');
+					});
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="container">
+			<h1>瞿龙俊的运动框架</h1>
+			<h3>当前版本：V1.0</h3>
+			<hr />
+			<p>这是我的第一个版本的运动框架，随着版本的更新，我还会添加更多的内容，修复已有的bug，希望大家多多指出框架里面的漏洞，共同进步！</p>
+			<p>使用方法：</p>
+			<p>在Body底部导入startMove.js,导入方法：</p>
+			<p style="color:red"><code>&lt;script src="startMove.js" type="text/javascript" charset="utf-8"&gt;&lt;/script&gt;</code></p>
+			<p>使用方式：</p>
+			<p>
+				startMove(obj, json, interval, fn)的参数分别为：
+				<p>（1）.obj:需要操作的元素，若为当前事件的元素，则可直接传递this。</p>
+				<p>（2）.json：需要操作的元素的属性，即属性最终的形态，例如{'height':500,'width':300}代表移动之后高度变成500px，宽度变成300px。</p>
+				<p>（3）.interval：每步间隔的时间，时间间隔越短动画越连贯。</p>
+				<p>（4）.fn:回调函数：动画完成后执行的函数</p>
+			</p>
+			<br />
+			<hr />
+			<p>1.单个属性变化:</p>
+			<div id="div1"><span>鼠标移入查看事件</span></div>
+			<p>2.多个属性同时变化</p>
+			<div id="div2"><span>鼠标移入查看事件</span></div>
+			<p>3.依次执行不同的属性变化</p>
+			<div id="div3"><span>鼠标移入查看事件</span></div>
+			<p>4.使用回调函数</p>
+			<div id="div4"><span>鼠标移入查看事件</span></div>
+		</div>
+		<script src="startMove.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

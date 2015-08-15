@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#div1 {
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+				left: 400px;
+				top: 100px;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload = function() {
+				var oDiv1 = document.getElementById("div1");
+				oDiv1.onclick = function() {
+					//下面的运动会清除掉上面的定时器
+					/*startMove(this, 'width', 200, 10);
+					startMove(this, 'height', 200, 10);*/
+					startMove(this, {
+						'width': 200,
+						'height': 200
+					}, 10);
+				};
+
+				function startMove(obj, json, iSpeed) {
+					//将需要运动的多个属性保存成JSON格式，方便在startMove中调用，key-Value键值对，不同的key，不用数组
+					clearInterval(obj.iTimer); //使用obj.iTimer，用来控制N个不同元素的运动互不影响，否则会将前一个元素的定时器清空Bug
+					var iCur = 0;
+					obj.iTimer = setInterval(function() {
+						//定时器每运行一次，就要把运动的属性都推进一步
+						for (var attr in json) { //遍历每个attr
+							iTarget = json[attr]; //获取attr对应的value值
+							if (attr == 'opacity') {
+								iCur = Math.round(css(obj, 'opacity') * 100); //四舍五入，在某些浏览器中（目前实测Opera）中，Opacity得到的值是一个很长的数，例如：0.29999999998,0.3000000001
+							} else {
+								iCur = parseInt(css(obj, attr));
+							}
+							if (iCur == iTarget) {
+								clearInterval(obj.iTimer);
+							} else {
+								if (attr == 'opacity') {
+									//非IE浏览器
+									obj.style.opacity = (iCur + iSpeed) / 100;
+									obj.style.filter = 'alpha(opacity=' + (iCur + iSpeesd) + ')' //IE浏览器兼容
+								} else {
+									obj.style[attr] = iCur + iSpeed + 'px';
+								}
+							}
+						}
+					}, 30);
+				}
+
+				function css(obj, attr) { //获取元素CSS样式
+					if (obj.currentStyle) {
+						return obj.currentStyle[attr]; //若浏览器支持CurrentStyle，则使用它获取，最精确，IE
+					} else {
+						return getComputedStyle(obj, false)[attr]; //若不支持，则使用getComputedStyle获取，FF,Chrome等
+					}
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="div1">
+
+		</div>
+	</body>
+
+</html>
