@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#div1 {
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload = function() {
+				//碰撞运动：首先找到碰撞的临界点，再确定运动方向，然后去改对应的速度。（速度取反）
+				var oDiv = document.getElementById('div1');
+				var iTimer = null;
+				var iSpeedX = 10; //横向的速度
+				var iSpeedY = 10; //纵向的速度
+				startMove();
+
+				function startMove() {
+					clearInterval(iTimer);
+					iTimer = setInterval(function() {
+						var L = oDiv.offsetLeft + iSpeedX; //保存即将变换的left值
+						var T = oDiv.offsetTop + iSpeedY; //保存即将变化的Top值
+						//如果T已经大于当前可视区域的高度时候，说明到了底部，则将T的值设置为该最大值，并将速度取反，使其反向运动
+						if (T > document.documentElement.clientHeight - oDiv.offsetHeight) {
+							T = document.documentElement.clientHeight - oDiv.offsetHeight
+							iSpeedY *= (-1);
+						} else {
+							//如果T<0，说明当前T已经到达了屏幕头部 ，设置T=0，并将速度取反，使其反向运动
+							if (T < 0) {
+								T = 0;
+								iSpeedY *= (-1);
+							}
+						}
+						//与T同理
+						if (L > document.documentElement.clientWidth - oDiv.offsetWidth) {
+							L = document.documentElement.clientWidth - oDiv.offsetWidth
+							iSpeedX *= (-1);
+						} else {
+							if (L < 0) {
+								L = 0;
+								iSpeedX *= (-1);
+							}
+						}
+						oDiv.style.top = T + 'px';
+						oDiv.style.left = L + 'px';
+					}, 50);
+				}
+			};
+		</script>
+	</head>
+
+	<body>
+		<div id="div1">
+
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#div1 {
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload = function() {
+				var oInput = document.getElementById("input1");
+				var oDiv = document.getElementById("div1");
+				var iTimer = null;
+				var iSpeed = 0;
+				var iSpeedX = 10;
+				oInput.onclick = function() {
+					startMove();
+				}
+
+				function startMove() {
+					clearInterval(iTimer);
+					iTimer = setInterval(function() {
+						iSpeed += 3;
+						var H = oDiv.offsetTop + iSpeed; //保存下一次oDiv距离顶部的top值
+						//如果Top值大于可视区域的宽度-div的高度
+						//即Div到达了底部
+						if (H > document.documentElement.clientHeight - oDiv.offsetHeight) {
+							H = document.documentElement.clientHeight - oDiv.offsetHeight //则改变H值为底部的top值
+							iSpeed *= (-1); //方向取反
+							iSpeed *= 0.75; //摩擦系数
+							iSpeedX *= 0.85; //x方向的损失
+						}
+						oDiv.style.top = H + 'px';
+						oDiv.style.left = oDiv.offsetLeft + iSpeedX + 'px';
+					}, 30);
+				}
+			};
+		</script>
+	</head>
+
+	<body>
+		<input type="button" name="input1" id="input1" value="开始运动" />
+		<div id="div1">
+
+		</div>
+	</body>
+
+</html>
