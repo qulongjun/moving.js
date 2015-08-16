@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#ul1 {
+				margin: 100px auto 0;
+				padding: 0;
+			}
+			li {
+				float: left;
+				list-style: none;
+				margin: 10px;
+				border: 1px solid black;
+			}
+			img {
+				width: 300px;
+				height: 200px;
+				display: block;
+			}
+		</style>
+		<script type="text/javascript">
+			 //当标签出现在可视区的时候就把它加载进来
+			window.onload = function() {
+				var oUl = document.getElementById('ul1');
+				var aImg = oUl.getElementsByTagName('img');
+				showImg(); //初始化，页面打开时候加载可视区图片
+				window.onscroll = function() {
+					showImg() //当滚动条滚动的时候，自动触发显示图片
+				};
+
+				function showImg() { //加载图片
+						//按道理来说在网页的头部加上 < !DOCTYPE html > 之后， 只是用document.documentElement.scrollTop这个就可以了， 
+						//但是谷歌浏览器却不支持这个， 而是支持document.body.scrollTop。
+						//滚动条滚动的高度
+						var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+						//遍历每一个img标签，判断，是否出现在了可视区之内
+						for (var i = 0; i < aImg.length; i++) {
+							//满足两个条件加载：1.当前img没有被加载过，且当前img的top值小于滚动条滚动区域+可视区的高时候
+							//isLoad为自定义属性，若不赋值为true，则为undefined
+							if (!aImg[i].isLoad && getTop(aImg[i]) < scrollTop + document.documentElement.clientHeight) {
+								//将img标签_src属性的Value赋给src
+								aImg[i].src = aImg[i].getAttribute('_src');
+								aImg[i].isLoad = true; //标记img的load属性为true，自定义属性,默认为undefined，即为false
+							}
+						}
+					}
+					//获取obj元素距离页面顶端的高度
+					//offsetTop：当前对象到其上级层顶部的距离.
+					//offsetParent：当前对象的上级层对象
+					//递归计算，先计算本身，然后将obj设置为其父容器，再计算top
+
+				function getTop(obj) {
+					var iTop = 0;
+					while (obj) {
+						iTop += obj.offsetTop;
+						obj = obj.offsetParent;
+					}
+					return iTop;
+				}
+			}
+		</script>
+	</head>
+
+	<body style="height: 2000px;">
+		<ul id="ul1">
+			<li><img _src="img/按需加载/1.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/2.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/3.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/4.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/5.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/6.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/7.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/1.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/2.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/3.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/4.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/5.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/6.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/7.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/1.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/2.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/3.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/4.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/5.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/6.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/7.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/1.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/2.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/3.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/4.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/5.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/6.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/7.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/1.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/2.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/3.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/4.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/5.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/6.jpg" src="img/按需加载/white.JPG" /></li>
+			<li><img _src="img/按需加载/7.jpg" src="img/按需加载/white.JPG" /></li>
+		</ul>
+	</body>
+
+</html>

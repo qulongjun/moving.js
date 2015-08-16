@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#div1 {
+				width: 520px;
+				height: 280px;
+				border: 1px solid black;
+				margin: 100px auto;
+				position: relative;
+				overflow: hidden;
+			}
+			#ul1 {
+				margin: 0;
+				padding: 0;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			li {
+				list-style: none;
+				float: left;
+			}
+			img {
+				display: block;
+			}
+			#div1 p {
+				text-align: center;
+				position: absolute;
+				width: 100%;
+				bottom: 0;
+			}
+			#div1 p span {
+				padding: 0 5px;
+				margin: 0 5px;
+				background: #ccc;
+				border-radius: 50%;
+				cursor: pointer;
+			}
+			#div1 p span.current {
+				background: #C90;
+			}
+		</style>
+		<script type="text/javascript">
+			 //效果：模仿淘宝，幻灯片效果，点击导航数字，实现从右边向左边滑入滑出的效果。
+			window.onload = function() {
+				var oDiv = document.getElementById('div1');
+				var oUl = document.getElementById('ul1');
+				var aLi = document.getElementsByTagName('li');
+				var aSpan = oDiv.getElementsByTagName('span');
+				var iLength = aLi.length; //动态的设置ul的width，方便将来扩展幻灯片，获取li的个数
+				var iWidth = aLi[0].offsetWidth; //获取每个li的width
+				oUl.style.width = iLength * iWidth + 'px'; //li的个数×li的宽度=ul的宽度
+				for (var i = 0; i < aSpan.length; i++) {
+					aSpan[i].index = i; //常用用法，用来在事件function内部获取当前元素的index值。
+					aSpan[i].onclick = function() {
+						for (var i = 0; i < aSpan.length; i++) { //遍历所有li，清除掉每个li的class
+							aSpan[i].className = '';
+						}
+						aSpan[this.index].className = 'current'; //设置当前li的class
+						startMove(oUl, { //动画
+							'left': -this.index * iWidth //每次从右边往左移，其实本质是ul往左移动li宽度的位置。
+						}, 30);
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div id="div1">
+			<ul id="ul1">
+				<li><img src="img/焦点图/1.png" /></li>
+				<li><img src="img/焦点图/2.jpg" /></li>
+				<li><img src="img/焦点图/3.jpg" /></li>
+				<li><img src="img/焦点图/4.jpg" /></li>
+				<li><img src="img/焦点图/5.jpg" /></li>
+				<li><img src="img/焦点图/6.jpg" /></li>
+			</ul>
+			<p>
+				<span class="current">1</span>
+				<span>2</span>
+				<span>3</span>
+				<span>4</span>
+				<span>5</span>
+				<span>6</span>
+			</p>
+		</div>
+		<script src="startMove.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

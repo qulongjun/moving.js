@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#div1 {
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+				top: 0;
+				right: 0;
+			}
+		</style>
+		<script type="text/javascript">
+			 //效果：点击返回顶部，在返回的过程中滚动滚动条会停止返回
+			window.onload = function() {
+				var oDiv = document.getElementById('div1');
+				var iTimer = null; //定时器变量，用来控制清空定时器
+				var b = 0; //临时变量，用来判定是否需要停止返回顶部
+				setTop(); //初始化
+				function setTop() { //设置将div放置到页面底部，bottom=0，right=0的位置
+					//按道理来说在网页的头部加上 < !DOCTYPE html > 之后， 只是用document.documentElement.scrollTop这个就可以了， 
+					//但是谷歌浏览器却不支持这个， 而是支持document.body.scrollTop。
+					//滚动条滚动的高度
+					var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+					//document.body.clientWidth == > BODY对象宽度
+					//document.body.clientHeight == > BODY对象高度
+					//document.documentElement.clientWidth == > 可见区域宽度
+					//document.documentElement.clientHeight == > 可见区域高度
+					//alert(document.documentElement.clientHeight);//979,当前显示屏显示的高度
+					//alert(document.body.clientHeight);//5000，body整体的高度
+					//设置div的top值应该为滚动条滚动的高度+可见区域的高度-自身的高度
+					oDiv.style.top = scrollTop + document.documentElement.clientHeight - oDiv.offsetHeight + 'px';
+				}
+				window.onscroll = function() {
+					if (b != 1) //如果b=1，那么当前的scroll事件是被定时器触发，如果不等于1，则非定时器的其他事件触发
+					{
+						clearInterval(iTimer); //如果是非定时器触发的事件，则停止滚动到顶部
+					}
+					b = 2; //赋值为2，为了区分上次触发是定时器触发的事件还是自身触发的事件
+					setTop(); //设置div的位置
+				}
+				oDiv.onclick = function() {
+					clearInterval(iTimer); //先清空定时器，防止定时器重叠
+					var iCur = iSpeed = 0; //初始化当前位置和速度
+					iTimer = setInterval(function() {
+						b = 1; //定时器触发一次，则将b设置为1
+						iCur = document.documentElement.scrollTop || document.body.scrollTop; //获取当前距离顶部的值
+						iSpeed = Math.floor((0 - iCur) / 8); //因为速度永远是负值，所以向下取整，防止四舍五入导致bug
+						if (iCur == 0) { //如果已经到顶部了，则清空定时器
+							clearInterval(iTimer);
+						} else { //否则累加
+							document.documentElement.scrollTop = document.body.scrollTop = iCur + iSpeed;
+						}
+					}, 30)
+				}
+			}
+		</script>
+	</head>
+
+	<body style="height: 5000px;">
+		<div id="div1">
+
+		</div>
+		<script src="startMove.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

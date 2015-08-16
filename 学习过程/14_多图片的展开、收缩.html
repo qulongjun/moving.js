@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			body {
+				margin: 0;
+			}
+			ul {
+				margin: 0;
+				padding: 0;
+				width: 330px;
+				position: relative;
+			}
+			li {
+				width: 100px;
+				height: 100px;
+				float: left;
+				list-style: none;
+				margin: 10px 0 0 10px;
+			}
+			li img {
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload = function() {
+				/*
+				 * 元素居中放大：除了要改变元素的宽高之外，还要改变元素定位的top值和left值
+				 * 如果图片放大1倍，位移放大的宽高的一半
+				 * 元素必须是定位的
+				 */
+				var oUl = document.getElementById("ul1");
+				var aLi = oUl.getElementsByTagName('li');
+				var arr = []; //用来记录原始的top和left值
+				var zIndex = 1; //Z-index用来设置层叠顺序，每次移入的方块获得最高的层叠
+				for (var i = 0; i < aLi.length; i++) {
+					//push()方法用来压入一个数据，将aLi[i]原始的left值和top值存入，此时尚未绝对定位
+					arr.push({
+						left: aLi[i].offsetLeft,
+						top: aLi[i].offsetTop
+					});
+				}
+				for (var i = 0; i < aLi.length; i++) {
+					aLi[i].index = i; //常用用法，为了让i能在aLi[i].onmouseover = function()｛｝里使用，否则不能使用i，内部使用方法为this.index
+					aLi[i].style.left = arr[i].left + 'px';
+					aLi[i].style.top = arr[i].top + 'px';
+					aLi[i].style.position = 'absolute';
+					aLi[i].style.margin = 0; //将li的margin值清0，因为left值里已经包含了margin值
+					aLi[i].onmouseover = function() { //鼠标移入事件
+						this.style.zIndex = zIndex++;
+						startMove(this, {
+							'width': 200,
+							'height': 200,
+							'top': arr[this.index].top - 50, //外部使用了aLi[i].index=i，内部使用this.index获取
+							'left': arr[this.index].left - 50
+						}, 30)
+					};
+					aLi[i].onmouseout = function() { //鼠标移出事件
+						startMove(this, {
+							'width': 100,
+							'height': 100,
+							'top': arr[this.index].top,
+							'left': arr[this.index].left
+						}, 30);
+					}
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<ul id="ul1">
+			<li><img src="img/img1.jpg" /></li>
+			<li><img src="img/img2.jpg" /></li>
+			<li><img src="img/img3.png" /></li>
+			<li><img src="img/img4.png" /></li>
+			<li><img src="img/img5.jpg" /></li>
+			<li><img src="img/img6.jpg" /></li>
+			<li><img src="img/img7.png" /></li>
+			<li><img src="img/img8.jpg" /></li>
+			<li><img src="img/img9.jpg" /></li>
+		</ul>
+		<script src="startMove.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

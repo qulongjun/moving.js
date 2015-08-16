@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			 //在页面打开的时候，加载第一张图片，然后页面加载完成以后，在用户看的时间内，去加载后面的内容。-->Image对象
+			window.onload = function() {
+				var oImage = new Image();
+				var oImg = document.getElementById('img1');
+				var arr = [
+					'http://preview.quanjing.com/mf093/mf700-06841606.jpg',
+					'http://preview.quanjing.com/chineseview/241-0193.jpg',
+					'http://preview.quanjing.com/chineseview011/1m-15618.jpg',
+					'http://preview.quanjing.com/culturarm002/is09aa7aj.jpg',
+					'http://preview.quanjing.com/chineseview019/90-2926.jpg',
+					'http://preview.quanjing.com/age_foto48/x9i-985283.jpg',
+					'http://preview.quanjing.com/top037/top-942669.jpg'
+				];
+				/*
+				 * 属性：
+				 * src:当我们给的Image对象的src属性赋值一个url地址的时候，这个Image对象就会去加载url资源，加载完成之后的资源被保存到浏览器的缓存文件夹中，
+				 * 下次如果我们需要去调用这个url地址的时候，直接从缓存文件夹中读取。所以速度很快。
+				 * 事件：
+				 * onload:当资源加载完成的时候触发
+				 * onerror：当资源加载失败的时候触发
+				 */
+				//oImage.src = 'http://preview.quanjing.com/mf093/mf700-06841606.jpg';
+				var iCur = 0; //index，当前下载的图片的索引
+				var i = 0; //index，作为当前浏览图片的索引
+				downLoad(); //开始自动下载arr里的图片
+				function downLoad() {
+					oImage.src = arr[iCur]; //下载图片
+					oImage.onload = function() {
+						iCur++;
+						if (iCur < arr.length) { //若没到达最后一个地址
+							downLoad();
+						}
+						document.title = iCur + '/' + arr.length; //在title上显示加载进度
+					}
+				}
+				oImg.onclick = function() {
+					i++;
+					if (i < arr.length) {
+						oImg.src = arr[i];
+					}
+				};
+			}
+		</script>
+	</head>
+
+	<body>
+		<img id="img1" src="http://preview.quanjing.com/mf093/mf700-06841606.jpg" />
+	</body>
+
+</html>
