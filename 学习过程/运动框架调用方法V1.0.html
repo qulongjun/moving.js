@@ -20,26 +20,55 @@
 			}
 			h3 {
 				font-size: 1em;
+				text-align: left;
+				padding-left: 10px;
 			}
 			p {
 				text-align: left;
-				text-indent: 2em;
 				margin-top: 5px;
 			}
 			#div1,
 			#div2,
 			#div3,
-			#div4 {
+			#div4,
+			#div5,
+			#div6,
+			#div7,
+			#div8,
+			#div9 {
 				height: 200px;
 				width: 200px;
 				background: gray;
 				margin: 10px;
+			}
+			#div5,
+			#div6,
+			#div7,
+			#div8,
+			#div9 {
+				position: relative;
 			}
 			div span {
 				color: rgb(255, 255, 255);
 				position: relative;
 				top: 50%;
 				transform: translateY(-50%);
+			}
+			.gray {
+				color: gray;
+			}
+			ol {
+				padding-left: 2em;
+				text-align: left;
+			}
+			.inUl {
+				margin-left: 2em;
+			}
+			.red {
+				color: red;
+			}
+			input[type=button] {
+				margin: 10px;
 			}
 		</style>
 		<script type="text/javascript">
@@ -48,6 +77,11 @@
 				var oDiv2 = document.getElementById('div2');
 				var oDiv3 = document.getElementById('div3');
 				var oDiv4 = document.getElementById('div4');
+				var oDiv5 = document.getElementById('div5');
+				var oDiv6 = document.getElementById('div6');
+				var oDiv7 = document.getElementById('div7');
+				var oDiv8 = document.getElementById('div8');
+				var oDiv9 = document.getElementById('div9');
 				oDiv1.onmouseover = function() {
 					startMove(this, {
 						'width': 500
@@ -102,6 +136,39 @@
 						alert('动画还原完成！');
 					});
 				}
+				oDiv5.onmousemove = function() {
+					startMoveTime(this, {
+						'left': 800
+					}, 1000)
+				}
+				oDiv6.onmousemove = function() {
+					startMoveTime(this, {
+						'left': 800
+					}, 1000, 'easeBothStrong')
+				}
+				oDiv7.onmousemove = function() {
+					startMoveTime(this, {
+						'left': 800
+					}, 800, 'elasticBoth')
+				}
+				oDiv8.onmousemove = function() {
+					startMoveTime(this, {
+						'left': 800
+					}, 800, 'backBoth')
+				}
+				oDiv9.onmousemove = function() {
+					startMoveTime(this, {
+						'left': 800
+					}, 800, 'bounceBoth')
+				}
+				$('input[type=button]').click(function() {
+					$(this).parent().siblings('div').css({
+						'left': 0,
+						'top': 0,
+						'height': 200,
+						'width': 200
+					});
+				});
 			}
 		</script>
 	</head>
@@ -109,38 +176,114 @@
 	<body>
 		<div id="container">
 			<h1>瞿龙俊的运动框架</h1>
-			<h3>当前版本：V1.1</h3>
+			<h3>当前版本：V2.0</h3>
 			<hr />
-			<p>这是我的第一个版本的运动框架，随着版本的更新，我还会添加更多的内容，修复已有的bug，希望大家多多指出框架里面的漏洞，共同进步！</p>
+			<p>这是我的第二个版本的运动框架，随着版本的更新，我还会添加更多的内容，修复已有的bug，希望大家多多指出框架里面的漏洞，共同进步！</p>
 			<p>使用方法：</p>
 			<p>在Body底部导入startMove.js,导入方法：</p>
 			<p style="color:red"><code>&lt;script src="startMove.js" type="text/javascript" charset="utf-8"&gt;&lt;/script&gt;</code></p>
 			<p>使用方式：</p>
-			<p>
-				startMove(obj, json, interval, fn)的参数分别为：
-				<p>（1）.obj:需要操作的元素，若为当前事件的元素，则可直接传递this。</p>
-				<p>（2）.json：需要操作的元素的属性，即属性最终的形态，例如{'height':500,'width':300}代表移动之后高度变成500px，宽度变成300px。</p>
-				<p>（3）.interval：每步间隔的时间，时间间隔越短动画越连贯。</p>
-				<p>（4）.fn:回调函数：动画完成后执行的函数</p>
-			</p>
+			<p>一、以速度为基准的运动：<span class="red">startMove(obj, json, interval, fn)</span>的参数分别为：</p>
+			<ol>
+				<li>
+					<p>obj:需要操作的元素，若为当前事件的元素，则可直接传递this。</p>
+				</li>
+				<li>
+					<p>json：需要操作的元素的属性，即属性最终的形态，例如{'height':500,'width':300}代表移动之后高度变成500px，宽度变成300px。</p>
+				</li>
+				<li>
+					<p>interval：每步间隔的时间，时间间隔越短动画越连贯。</p>
+				</li>
+				<li>
+					<p>fn:回调函数：动画完成后执行的函数</p>
+				</li>
+			</ol>
+
 			<br />
 			<hr />
-			<p>1.单个属性变化:</p>
-			<div id="div1"><span>鼠标移入查看事件</span></div>
-			<p>2.多个属性同时变化</p>
-			<div id="div2"><span>鼠标移入查看事件</span></div>
-			<p>3.依次执行不同的属性变化</p>
-			<div id="div3"><span>鼠标移入查看事件</span></div>
-			<p>4.使用回调函数</p>
-			<div id="div4"><span>鼠标移入查看事件</span></div>
+			<h3>部分动画展示：</h3>
+			<ol>
+				<li>
+					<h3>单个属性变化</h3>
+					<div id="div1"><span>鼠标移入查看事件</span></div>
+				</li>
+				<li>
+					<h3>多个属性同时变化</h3>
+					<div id="div2"><span>鼠标移入查看事件</span></div>
+				</li>
+				<li>
+					<h3>依次执行不同的属性变化</h3>
+					<div id="div3"><span>鼠标移入查看事件</span></div>
+				</li>
+				<li>
+					<h3>使用回调函数</h3>
+					<div id="div4"><span>鼠标移入查看事件</span></div>
+				</li>
+			</ol>
 			<hr />
-			<p>部分使用案例</p>
-			<p>1.多图片的展开、收缩功能：当鼠标移入图片时，图片会放大，当鼠标移出图片时，图片会恢复。动画实现--><a target="_blank" href="14_多图片的展开、收缩.html">点击查看</a></p><br />
-			<p>2.带运动效果的留言本：点击留言，可将留言框内的内容动态显示到留言板中，留言板里的记录会从上到下慢慢显示--><a href="15_带运动效果的留言本.html">点击查看</a></p><br />
-			<p>3.焦点幻灯片：仿淘宝网首页的焦点图，图片从左往右进行轮播。--><a href="16_焦点幻灯片.html">点击查看</a></p><br />
-			<p>4.对框架的扩展修改：带运动停止的返回顶部：点击即可返回顶部，若期间滚动滚动条，即可停止返回顶部。--><a href="17_带运动停止的返回顶部.html">点击查看</a></p>
+			<h3>部分使用案例</h3>
+			<ol>
+				<li>
+					<p>多图片的展开、收缩功能：当鼠标移入图片时，图片会放大，当鼠标移出图片时，图片会恢复。动画实现--><a target="_blank" href="14_多图片的展开、收缩.html">点击查看</a></p>
+				</li>
+				<li>
+					<p>带运动效果的留言本：点击留言，可将留言框内的内容动态显示到留言板中，留言板里的记录会从上到下慢慢显示--><a href="15_带运动效果的留言本.html">点击查看</a></p>
+				</li>
+				<li>
+					<p>焦点幻灯片：仿淘宝网首页的焦点图，图片从左往右进行轮播。--><a href="16_焦点幻灯片.html">点击查看</a></p>
+				</li>
+				<li>
+					<p>对框架的扩展修改：带运动停止的返回顶部：点击即可返回顶部，若期间滚动滚动条，即可停止返回顶部。--><a href="17_带运动停止的返回顶部.html">点击查看</a></p>
+				</li>
+			</ol>
+			<br />
+			<hr />
+			<p>二、以时间为基准的运动：<span class="red">startMoveTime(obj, json, times, fx, fn)</span>的参数分别为：</p>
+			<ol>
+				<li>obj:运动对象,必需。</li>
+				<li>json:运动对象的运动目标属性，必需。</li>
+				<li>times:运动时间，若不设置，默认值为400ms。</li>
+				<li>fx:运动方式：若不设置，默认值为匀速运动,支持的方式有
+					<ul class="inUl">
+						<li class="gray">linear(匀速)</li>
+						<li class="gray">easeIn(加速曲线)、easeOut(减速曲线)、easeBoth(加速减速曲线)</li>
+						<li class="gray">easeInStrong(加加速曲线)、easeOutStrong(减减速曲线)、easeBothStrong(加加速减减速曲线)</li>
+						<li class="gray">elasticIn(正弦衰减曲线（弹动渐入）)、elasticOut(正弦增强曲线（弹动渐出）)、elasticBoth(正弦曲线(弹性出入))</li>
+						<li class="gray">backIn(回退加速（回退渐入）)、backOut(回退加速（回退渐出）)、backBoth(回退加速（渐入渐出）)</li>
+						<li class="gray">bounceIn(弹球减振(弹球渐入))、bounceOut(弹球减振(弹球渐出))、bounceBoth(弹球减振(渐入渐出))</li>
+					</ul>
+				</li>
+				<li>fn:回调函数</li>
+			</ol>
+
+			<hr />
+			<h3>部分动画展示：</h3>
+			<br />
+			<ol>
+				<li>
+					<h3>liner<input type="button" id="" value="还原" /></h3>
+					<div id="div5"><span>鼠标移入查看事件</span></div>
+				</li>
+				<li>
+					<h3>easeBothStrong<input type="button" id="" value="还原" /></h3>
+					<div id="div6"><span>鼠标移入查看事件</span></div>
+				</li>
+				<li>
+					<h3>elasticBoth<input type="button" id="" value="还原" /></h3>
+					<div id="div7"><span>鼠标移入查看事件</span></div>
+				</li>
+				<li>
+					<h3>backBoth<input type="button" id="" value="还原" /></h3>
+					<div id="div8"><span>鼠标移入查看事件</span></div>
+				</li>
+				<li>
+					<h3>bounceBoth<input type="button" id="" value="还原" /></h3>
+					<div id="div9"><span>鼠标移入查看事件</span></div>
+				</li>
+			</ol>
 		</div>
 		<script src="startMove.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 
 </html>
